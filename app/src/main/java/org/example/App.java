@@ -3,12 +3,23 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import org.example.bankAccounts.BaseBankAccount;
+import org.example.factories.BankAccountFactory;
+import org.example.factories.BankAccountOwnerFactory;
+import org.example.people.BankAccountOwner;
+import org.example.services.BankAccountService;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+public class App {
+	public static void main(String[] args) {
+		BankAccountFactory bankAccountFactory = new BankAccountFactory();
+		BankAccountService bankAccountService = new BankAccountService();
+		BankAccountOwnerFactory bankAccountOwnerFactory = new BankAccountOwnerFactory();
+
+		BankAccountOwner owner = bankAccountOwnerFactory.createBankAccountOwner("Jarda", "Nohavica");
+		BaseBankAccount account = bankAccountFactory.createSavingBankAccount("u-123", owner);
+
+		bankAccountService.deposit(account, 500);
+
+		System.out.println(account.getBalance());
+	}
 }

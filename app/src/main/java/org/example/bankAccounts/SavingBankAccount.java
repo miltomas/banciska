@@ -3,11 +3,9 @@ package org.example.bankAccounts;
 /**
  * BankAccount
  */
-public class SavingBankAccount {
-	public SavingBankAccount(String uuid) {
-
-
+public class SavingBankAccount extends BaseBankAccount {
+	public SavingBankAccount(String uuid, String number, int balance) {
+		super(uuid, number, balance);
 	}
-	private String uuid;		
-	private String number;
+
 }
