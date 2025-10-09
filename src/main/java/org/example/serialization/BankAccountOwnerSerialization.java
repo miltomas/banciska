@@ -1,4 +1,4 @@
-package org.example.bankAccounts.serialization;
+package org.example.serialization;
 
 import com.google.gson.annotations.SerializedName;
 

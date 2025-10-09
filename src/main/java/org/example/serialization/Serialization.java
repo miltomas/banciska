@@ -1,4 +1,4 @@
-package org.example.bankAccounts.serialization;
+package org.example.serialization;
 
 public interface Serialization {
 

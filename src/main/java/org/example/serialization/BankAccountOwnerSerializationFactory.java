@@ -1,10 +1,10 @@
-package org.example.bankAccounts.serialization;
+package org.example.serialization;
 
-import org.example.people.BankAccountOwner;
+import org.example.persons.customers.Customer;
 
 public class BankAccountOwnerSerializationFactory {
 
-    public BankAccountOwnerSerialization createBankAccountOwnerSerialization(BankAccountOwner bankAccountOwner) {
+    public BankAccountOwnerSerialization createBankAccountOwnerSerialization(Customer bankAccountOwner) {
         BankAccountOwnerSerialization  bankAccountOwnerSerialization = new BankAccountOwnerSerialization();
 
         bankAccountOwnerSerialization.uuid = bankAccountOwner.getUuid();

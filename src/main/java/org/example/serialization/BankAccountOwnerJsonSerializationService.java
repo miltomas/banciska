@@ -1,7 +1,7 @@
-package org.example.bankAccounts.serialization;
+package org.example.serialization;
 
 import com.google.gson.Gson;
-import org.example.people.BankAccountOwner;
+import org.example.persons.customers.Customer;
 
 public class BankAccountOwnerJsonSerializationService implements Serialization {
 
@@ -11,11 +11,11 @@ public class BankAccountOwnerJsonSerializationService implements Serialization {
     @Override
     public String serialization(Object bankAccountOwner) {
 
-        if (!(bankAccountOwner instanceof BankAccountOwner)) {
+        if (!(bankAccountOwner instanceof Customer)) {
             throw new RuntimeException("BankAccountOwner must be an instance of BankAccountOwner");
         }
 
-        BankAccountOwnerSerialization bankAccountOwnerSerialization = bankAccountOwnerSerializationFactory.createBankAccountOwnerSerialization((BankAccountOwner) bankAccountOwner);
+        BankAccountOwnerSerialization bankAccountOwnerSerialization = bankAccountOwnerSerializationFactory.createBankAccountOwnerSerialization((Customer) bankAccountOwner);
 
         /*
           StringBuilder sb = new StringBuilder();
@@ -31,6 +31,6 @@ public class BankAccountOwnerJsonSerializationService implements Serialization {
 
     @Override
     public Object deserialization(String serializedObject) {
-        return gson.fromJson("",  BankAccountOwner.class);
+        return gson.fromJson("",  Customer.class);
     }
 }
