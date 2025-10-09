@@ -10,6 +10,9 @@ import org.example.logger.FileSystemLogger;
 import org.example.logger.Logger;
 import org.example.persons.customers.Customer;
 import org.example.persons.customers.factories.CustomerFactory;
+import org.example.serialization.BankAccountOwnerSerialization;
+import org.example.serialization.BankAccountOwnerSerializationFactory;
+import org.example.serialization.BankAccountOwnerXmlSerializationService;
 
 public class App {
 
@@ -36,6 +39,16 @@ public class App {
             float interestRate = ((SaveBankAccount)account2).getInterestRate();
             logger.log("Interest Rate: " + interestRate);
         }
+
+		BankAccountOwnerSerializationFactory bof = new BankAccountOwnerSerializationFactory();
+		BankAccountOwnerSerialization ser = bof.createBankAccountOwnerSerialization(customer);
+		BankAccountOwnerXmlSerializationService xmlser = new BankAccountOwnerXmlSerializationService();
+
+		String xml = xmlser.serialization(ser);
+		logger.log(xml);
+		logger.log("\n");
+		logger.log(xmlser.serialization(xmlser.deserialization(xml)));
+
     }
 
     private BaseBankAccount testSaveAccount(Customer customer) {
