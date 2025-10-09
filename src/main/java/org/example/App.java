@@ -40,15 +40,6 @@ public class App {
             logger.log("Interest Rate: " + interestRate);
         }
 
-		BankAccountOwnerSerializationFactory bof = new BankAccountOwnerSerializationFactory();
-		BankAccountOwnerSerialization ser = bof.createBankAccountOwnerSerialization(customer);
-		BankAccountOwnerXmlSerializationService xmlser = new BankAccountOwnerXmlSerializationService();
-
-		String xml = xmlser.serialization(ser);
-		logger.log(xml);
-		logger.log("\n");
-		logger.log(xmlser.serialization(xmlser.deserialization(xml)));
-
     }
 
     private BaseBankAccount testSaveAccount(Customer customer) {
