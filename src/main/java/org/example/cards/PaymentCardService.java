@@ -16,7 +16,7 @@ public class PaymentCardService {
 		this.bankAccountService = bankAccountService;
 	}
 
-	public void withdraw(PaymentCard card, double amount) {
+	public void withdraw(PaymentCard card, double amount) throws Exception {
 		BaseBankAccount account = paymentCardRepository.getBankAccountByCardNumber(card.getCardNumber());
 		bankAccountService.withdraw(account, amount);	
 	}

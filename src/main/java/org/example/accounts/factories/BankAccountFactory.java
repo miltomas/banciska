@@ -1,6 +1,7 @@
 package org.example.accounts.factories;
 
 import org.example.accounts.BankAccount;
+import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.SaveBankAccount;
 import org.example.accounts.StudentBankAccount;
 import org.example.accounts.generators.BankAccountNumberGenerator;
@@ -33,6 +34,15 @@ public class BankAccountFactory {
                 bankAccountNumberGenerator.generateRandomAccountNumber(),
                 customer,
                 schoolName
+        );
+    }
+
+    public BankAccountWithPaymentCards createBankAccountWithPaymentCards(String uuid, Customer customer) {
+        return new BankAccountWithPaymentCards(
+                uuid,
+                bankAccountNumberGenerator.generateRandomAccountNumber(),
+                customer,
+				5000
         );
     }
 

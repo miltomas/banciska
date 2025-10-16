@@ -17,7 +17,7 @@ public class PaymentCardRepository {
 		bankAccountMap.put(cardNumber, account);
 	}
 
-	public BaseBankAccount getBankAccountByCardNumber(String cardNumber) {
+	public BaseBankAccount getBankAccountByCardNumber(String cardNumber) throws Exception {
 		BaseBankAccount account = bankAccountMap.get(cardNumber);
 
 		if (account == null)
