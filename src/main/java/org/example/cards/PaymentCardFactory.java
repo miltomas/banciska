@@ -2,14 +2,22 @@ package org.example.cards;
 
 import java.util.UUID;
 
+import org.example.accounts.BankAccountWithPaymentCards;
+import org.example.cards.PaymentCardRepository;
+
 public class PaymentCardFactory {
 
     private final PaymentCardNumberGenerator paymentCardNumberGenerator = new PaymentCardNumberGenerator();
     private final PaymentCardCvvGenerator paymentCardCvvGenerator = new PaymentCardCvvGenerator();
     private final PaymentCardPinGenerator  paymentCardPinGenerator = new PaymentCardPinGenerator();
     private final PaymentCardExpirationCalculator paymentCardExpirationCalculator = new PaymentCardExpirationCalculator();
+	private final PaymentCardRepository paymentCardRepository;
 
-    public PaymentCard create() {
+	public PaymentCardFactory(PaymentCardRepository paymentCardRepository) {
+		this.paymentCardRepository = paymentCardRepository;
+	}
+
+    public PaymentCard create(BankAccountWithPaymentCards account) {
 
         String uuid = UUID.randomUUID().toString();
         String cardNUmber = this.paymentCardNumberGenerator.generateCardNumber();
@@ -18,6 +26,8 @@ public class PaymentCardFactory {
         String pin = this.paymentCardPinGenerator.generatePin();
         String expireMonth = this.paymentCardExpirationCalculator.calculateMonthExpire();
         String expireYear = this.paymentCardExpirationCalculator.calculateYearExpire();
+	
+		paymentCardRepository.linkCardToAccount(cardNUmber, account);
 
         return new PaymentCard(uuid, cardNUmber, cvv, pin, expireMonth, expireYear);
     }
