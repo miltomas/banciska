@@ -1,5 +1,6 @@
 package org.example;
 
+import com.google.inject.Inject;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
@@ -19,17 +20,18 @@ public class App {
 
 	Logger logger = new FileSystemLogger();
 
-	CustomerFactory customerFactory = new CustomerFactory();
-	BankAccountService bankAccountService = new BankAccountService();
-	BankAccountFactory bankAccountFactory = new BankAccountFactory();
-	PaymentCardRepository paymentCardRepository = new PaymentCardRepository();
-	PaymentCardFactory paymentCardFactory = new PaymentCardFactory(paymentCardRepository);
-	PaymentCardService paymentCardService = new PaymentCardService(paymentCardRepository, bankAccountService);
+	@Inject CustomerFactory customerFactory;
+	@Inject BankAccountService bankAccountService;
+	@Inject BankAccountFactory bankAccountFactory;
+	@Inject PaymentCardRepository paymentCardRepository;
+	@Inject PaymentCardFactory paymentCardFactory;
+	@Inject PaymentCardService paymentCardService;
 
 	public void run() {
-		Customer customer = customerFactory.createCustomer("c-123", "Tomas", "Pesek");
+		Customer customer =
+			customerFactory.createCustomer("c-123", "Tomas", "Pesek");
 		logger.log(customer.getUuid() + ": " + customer.getFirstName() + " " +
-				customer.getLastName());
+				   customer.getLastName());
 
 		logger.log("=== TEST BANK ACCOUNT");
 		BaseBankAccount account1 = testBankAccount(customer);
@@ -41,24 +43,26 @@ public class App {
 		logger.log(account2 instanceof BankAccount ? "Bank" : "Save");
 
 		if (account2 instanceof SaveBankAccount) {
-			float interestRate = ((SaveBankAccount) account2).getInterestRate();
+			float interestRate = ((SaveBankAccount)account2).getInterestRate();
 			logger.log("Interest Rate: " + interestRate);
 		}
-		
+
 		logger.log("=== TEST WITH CARDS ACCOUNT");
-		BankAccountWithPaymentCards accountWithPaymentCards = testBankAccountWithPaymentCards(customer);
+		BankAccountWithPaymentCards accountWithPaymentCards =
+			testBankAccountWithPaymentCards(customer);
 
 		logger.log("=== TEST CARD");
 		PaymentCard card = testPaymentCard(accountWithPaymentCards);
 	}
 
 	private BaseBankAccount testSaveAccount(Customer customer) {
-		BaseBankAccount account = bankAccountFactory.createSaveAccount("u-123", customer, 5);
+		BaseBankAccount account =
+			bankAccountFactory.createSaveAccount("u-123", customer, 5);
 
 		try {
 			logger.log(account.getUuid() + "(" +
-					account.getBankAccountNumber() +
-					"): " + account.getBalance());
+					   account.getBankAccountNumber() +
+					   "): " + account.getBalance());
 
 			// account.addBalance(500);
 			bankAccountService.deposit(account, 500);
@@ -76,12 +80,13 @@ public class App {
 	}
 
 	private BaseBankAccount testBankAccount(Customer customer) {
-		BaseBankAccount account = bankAccountFactory.createBankAccount("u-123", customer);
+		BaseBankAccount account =
+			bankAccountFactory.createBankAccount("u-123", customer);
 
 		try {
 			logger.log(account.getUuid() + " (" +
-					account.getBankAccountNumber() +
-					"): " + account.getBalance());
+					   account.getBankAccountNumber() +
+					   "): " + account.getBalance());
 
 			// account.addBalance(500);
 			bankAccountService.deposit(account, 500);
@@ -100,13 +105,16 @@ public class App {
 		return account;
 	}
 
-	private BankAccountWithPaymentCards testBankAccountWithPaymentCards(Customer customer) {
-		BankAccountWithPaymentCards account = bankAccountFactory.createBankAccountWithPaymentCards("u-123", customer);
+	private BankAccountWithPaymentCards
+	testBankAccountWithPaymentCards(Customer customer) {
+		BankAccountWithPaymentCards account =
+			bankAccountFactory.createBankAccountWithPaymentCards("u-123",
+																 customer);
 
 		try {
 			logger.log(account.getUuid() + " (" +
-					account.getBankAccountNumber() +
-					"): " + account.getBalance());
+					   account.getBankAccountNumber() +
+					   "): " + account.getBalance());
 
 			// account.addBalance(500);
 			bankAccountService.deposit(account, 500);
@@ -130,8 +138,8 @@ public class App {
 
 		try {
 			logger.log(account.getUuid() + " (" +
-					account.getBankAccountNumber() +
-					"): " + account.getBalance());
+					   account.getBankAccountNumber() +
+					   "): " + account.getBalance());
 
 			paymentCardService.withdraw(card, 500);
 			logger.log(account.getUuid() + ": " + account.getBalance());

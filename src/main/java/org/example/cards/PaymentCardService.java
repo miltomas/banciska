@@ -1,5 +1,6 @@
 package org.example.cards;
 
+import com.google.inject.Inject;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.services.BankAccountService;
 
@@ -8,16 +9,14 @@ import org.example.accounts.services.BankAccountService;
  */
 public class PaymentCardService {
 
-	private PaymentCardRepository paymentCardRepository;	
+	@Inject
+	private PaymentCardRepository paymentCardRepository;
+	@Inject
 	private BankAccountService bankAccountService;
 
-	public PaymentCardService(PaymentCardRepository paymentCardRepository, BankAccountService bankAccountService) {
-		this.paymentCardRepository = paymentCardRepository;
-		this.bankAccountService = bankAccountService;
-	}
-
 	public void withdraw(PaymentCard card, double amount) throws Exception {
-		BaseBankAccount account = paymentCardRepository.getBankAccountByCardNumber(card.getCardNumber());
-		bankAccountService.withdraw(account, amount);	
+		BaseBankAccount account = paymentCardRepository.getBankAccountByCardNumber(
+				card.getCardNumber());
+		bankAccountService.withdraw(account, amount);
 	}
 }

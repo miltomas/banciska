@@ -1,37 +1,40 @@
 package org.example.serialization;
 
-import org.example.persons.customers.Customer;
-
+import com.google.inject.Inject;
 /**
  * BankAccountOwnerXmlSerializationService
  */
 import com.thoughtworks.xstream.XStream;
+import org.example.persons.customers.Customer;
 
-public class BankAccountOwnerXmlSerializationService implements Serialization{
+public class BankAccountOwnerXmlSerializationService implements Serialization {
 
-	XStream xstream;
-    BankAccountOwnerSerializationFactory bankAccountOwnerSerializationFactory = new BankAccountOwnerSerializationFactory();
-
-	public BankAccountOwnerXmlSerializationService() {
-		xstream = new XStream();
-		xstream.allowTypesByWildcard(new String[]{"org.example.**"});
-	}
+	@Inject XStream xstream;
+	@Inject
+	BankAccountOwnerSerializationFactory bankAccountOwnerSerializationFactory;
 
 	@Override
 	public String serialization(Object serializationObject) {
 
-        if (!(serializationObject instanceof Customer)) {
-            throw new RuntimeException("serializationObject must be an instance of Customer");
-        }
+		if (!(serializationObject instanceof Customer)) {
+			throw new RuntimeException(
+				"serializationObject must be an instance of Customer");
+		}
 
-        BankAccountOwnerSerialization bankAccountOwnerSerialization = bankAccountOwnerSerializationFactory.createBankAccountOwnerSerialization((Customer) serializationObject);
+		BankAccountOwnerSerialization bankAccountOwnerSerialization =
+			bankAccountOwnerSerializationFactory
+				.createBankAccountOwnerSerialization(
+					(Customer)serializationObject);
 
-		return xstream.toXML(bankAccountOwnerSerialization);	
+		return xstream.toXML(bankAccountOwnerSerialization);
 	}
 
 	@Override
 	public Object deserialization(String serializedObject) {
 		return xstream.fromXML(serializedObject);
 	}
-	
+	@Inject
+	public void initializeXStream() {
+		xstream.allowTypesByWildcard(new String[] {"org.example.**"});
+	}
 }

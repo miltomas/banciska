@@ -1,5 +1,6 @@
 package org.example.cards;
 
+import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import org.example.accounts.BankAccountWithPaymentCards;
@@ -8,6 +9,7 @@ import org.example.accounts.BaseBankAccount;
 /**
  * PaymentCardRepository
  */
+@Singleton
 public class PaymentCardRepository {
 
 	private Map<String, BankAccountWithPaymentCards> bankAccountMap = new HashMap<>();
@@ -17,7 +19,8 @@ public class PaymentCardRepository {
 		bankAccountMap.put(cardNumber, account);
 	}
 
-	public BaseBankAccount getBankAccountByCardNumber(String cardNumber) throws Exception {
+	public BaseBankAccount getBankAccountByCardNumber(String cardNumber)
+			throws Exception {
 		BaseBankAccount account = bankAccountMap.get(cardNumber);
 
 		if (account == null)
