@@ -1,6 +1,7 @@
 package org.example.accounts.factories;
 
 import com.google.inject.Inject;
+import java.time.Instant;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.SaveBankAccount;
@@ -21,9 +22,10 @@ public class BankAccountFactory {
 
 	public SaveBankAccount createSaveAccount(String uuid, Customer customer,
 			float interestRate) {
+		Instant now = Instant.now();
 		return new SaveBankAccount(
 				uuid, bankAccountNumberGenerator.generateRandomAccountNumber(),
-				customer, interestRate);
+				customer, interestRate, now, now.plusSeconds(3));
 	}
 
 	public StudentBankAccount createStudentAccount(String uuid, Customer customer, String schoolName) {
