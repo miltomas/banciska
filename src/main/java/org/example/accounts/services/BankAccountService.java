@@ -24,7 +24,7 @@ public class BankAccountService {
 	public void withdraw(BaseBankAccount account, double amount) {
 		validator.validateWithdrawal(account, amount);
 
-		logger.log(account.getUuid() + ": + " + amount);
+		logger.log(account.getUuid() + ": - " + amount);
 
 		double newBalance = account.getBalance() - amount;
 		account.setBalance(newBalance);

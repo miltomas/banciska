@@ -21,12 +21,6 @@ public class SaveBankAccount extends BaseBankAccount {
 		this.interestRate = interestRate;
 		this.lastInterestInstant = lastInterestInstant;
 		this.nextInterestInstant = nextInterestInstant;
-
-		Instant now = Instant.now();
-		if (this.lastInterestInstant == null) {
-			this.lastInterestInstant = now;
-			this.nextInterestInstant = now.plusSeconds(3);
-		}
 	}
 
 	public SaveBankAccount(String uuid, String bankAccountNumber,
@@ -38,4 +32,21 @@ public class SaveBankAccount extends BaseBankAccount {
 	public float getInterestRate() {
 		return interestRate;
 	}
+
+	public Instant getLastInterestInstant() {
+		return lastInterestInstant;
+	}
+
+	public Instant getNextInterestInstant() {
+		return nextInterestInstant;
+	}
+
+	public void setLastInterestInstant(Instant lastInterestInstant) {
+		this.lastInterestInstant = lastInterestInstant;
+	}
+
+	public void setNextInterestInstant(Instant nextInterestInstant) {
+		this.nextInterestInstant = nextInterestInstant;
+	}
+
 }

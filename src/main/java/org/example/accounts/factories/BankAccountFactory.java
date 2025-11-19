@@ -25,7 +25,7 @@ public class BankAccountFactory {
 		Instant now = Instant.now();
 		return new SaveBankAccount(
 				uuid, bankAccountNumberGenerator.generateRandomAccountNumber(),
-				customer, interestRate, now, now.plusSeconds(3));
+				customer, interestRate, now, now);
 	}
 
 	public StudentBankAccount createStudentAccount(String uuid, Customer customer, String schoolName) {

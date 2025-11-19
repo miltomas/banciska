@@ -12,12 +12,10 @@ public class SaveBankAccountService {
 	BankAccountService bankAccountService;
 
 	public void interestBalance(SaveBankAccount account) {
-		double balance = account.getBalance();
-		bankAccountService.deposit(account,
-				balance + calculateInterest(account));
+		bankAccountService.deposit(account, calculateInterest(account));
 	}
 
 	private double calculateInterest(SaveBankAccount account) {
-		return account.getBalance() * account.getInterestRate();
+		return account.getBalance() * account.getInterestRate() / 100;
 	}
 }
