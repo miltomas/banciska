@@ -21,6 +21,5 @@ public class InterestJob implements Job {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println("ahoj");
 	}
 }

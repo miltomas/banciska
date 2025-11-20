@@ -42,23 +42,20 @@ public class App {
 	public void run() {
 
 		try {
-			// Define job
 			JobDetail job = JobBuilder.newJob(InterestJob.class)
 					.withIdentity("interestJob", "group1")
 					.build();
 
-			// Trigger every 5 seconds
 			Trigger trigger = TriggerBuilder.newTrigger()
 					.withIdentity("interestInterval", "group1")
 					.startNow()
 					.withSchedule(SimpleScheduleBuilder.simpleSchedule()
 							.withIntervalInSeconds(
-									InterestFacade.INTEREST_INTERVAL)
+									InterestFacade.INTEREST_INTERVAL + 1)
 							.repeatForever())
 					.build();
 
 			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-			scheduler.start();
 			scheduler.scheduleJob(job, trigger);
 		} catch (Exception e) {
 			logger.log(e.getMessage());
