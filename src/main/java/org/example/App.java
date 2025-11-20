@@ -16,6 +16,7 @@ import org.example.logger.Logger;
 import org.example.persons.customers.Customer;
 import org.example.persons.customers.factories.CustomerFactory;
 import org.example.scheduler.InterestJob;
+import org.example.transactions.TransactionExportFacade;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import com.google.inject.Inject;
@@ -38,6 +39,8 @@ public class App {
 	PaymentCardFactory paymentCardFactory;
 	@Inject
 	PaymentCardService paymentCardService;
+	@Inject
+	TransactionExportFacade transactionExportFacade;
 
 	public void run() {
 
@@ -84,9 +87,7 @@ public class App {
 		bankAccountRepository.addBankAccount(account2);
 		bankAccountRepository.addBankAccount(accountWithPaymentCards);
 	
-		try {
-			Thread.sleep(3000);
-		} catch (Exception e) {}
+		transactionExportFacade.export("export.json");
 	}
 
 	private BaseBankAccount testSaveAccount(Customer customer) {

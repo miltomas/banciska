@@ -1,19 +1,19 @@
 package org.example.transactions;
 
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.example.accounts.BaseBankAccount;
 
 /**
  * TransactionRepository
  */
+@Singleton
 public class TransactionRepository {
 
-	private Map<String, Collection<Transaction>> bankAccountMap =
-		new HashMap<>();
+	private Map<String, Collection<Transaction>> bankAccountMap = new HashMap<>();
 
 	public void registerTransaction(Transaction transaction) {
 		String uuid = transaction.getAccount().getUuid();
@@ -25,8 +25,11 @@ public class TransactionRepository {
 		bankAccountMap.get(uuid).add(transaction);
 	}
 
-	public Collection<Transaction>
-	getTransactionsFromBankAccount(BaseBankAccount account) {
+	public Map<String, Collection<Transaction>> getTransactions() {
+		return bankAccountMap;
+	}
+
+	public Collection<Transaction> getTransactionsFromBankAccount(BaseBankAccount account) {
 		return bankAccountMap.get(account.getUuid());
 	}
 }
