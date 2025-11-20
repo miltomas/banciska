@@ -13,6 +13,7 @@ public class Transaction {
 	private TransactionType transactionType;
 	private double amount;
 
+	public Transaction() {}
 	public Transaction(Instant instant, BaseBankAccount account, TransactionType transactionType, double amount) {
 		this.instant = instant;
 		this.account = account;
