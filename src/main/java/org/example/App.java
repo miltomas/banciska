@@ -1,5 +1,6 @@
 package org.example;
 
+import com.google.inject.Inject;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
@@ -16,14 +17,15 @@ import org.example.logger.Logger;
 import org.example.persons.customers.Customer;
 import org.example.persons.customers.factories.CustomerFactory;
 import org.example.scheduler.InterestJob;
+import org.example.scheduler.TransactionExportJob;
 import org.example.transactions.TransactionExportFacade;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import com.google.inject.Inject;
 
 public class App {
 
-	@Inject Logger logger;
+	@Inject
+	Logger logger;
 
 	@Inject
 	CustomerFactory customerFactory;
@@ -64,6 +66,25 @@ public class App {
 			logger.log(e.getMessage());
 		}
 
+		try {
+			JobDetail job = JobBuilder.newJob(TransactionExportJob.class)
+					.withIdentity("exportJob", "group1")
+					.build();
+
+			Trigger trigger = TriggerBuilder.newTrigger()
+					.withIdentity("exportInterval", "group1")
+					.startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+							.withIntervalInSeconds(10)
+							.repeatForever())
+					.build();
+
+			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+			scheduler.scheduleJob(job, trigger);
+		} catch (Exception e) {
+			logger.log(e.getMessage());
+		}
+
 		Customer customer = customerFactory.createCustomer("c-123", "Tomas", "Pesek");
 		logger.log(customer.getUuid() + ": " + customer.getFirstName() + " " +
 				customer.getLastName());
@@ -86,7 +107,7 @@ public class App {
 		bankAccountRepository.addBankAccount(account1);
 		bankAccountRepository.addBankAccount(account2);
 		bankAccountRepository.addBankAccount(accountWithPaymentCards);
-	
+
 		transactionExportFacade.export("export.json");
 	}
 
